@@ -8,6 +8,15 @@ import { loadBlogPost } from '@/helpers/file-helpers';
 
 import styles from './postSlug.module.css';
 
+
+export async function generateMetadata({ params }) {
+	const { frontmatter } = await loadBlogPost(params.postSlug)
+  return {
+    title: frontmatter.title,
+		description: frontmatter.abstract
+  };
+}
+
 async function BlogPost({params}) {
 	const { postSlug } = params
 	// Read the content of a locally-stored file as a string:
