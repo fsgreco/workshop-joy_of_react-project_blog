@@ -5,6 +5,8 @@ import {
 } from 'next/font/google';
 import clsx from 'clsx';
 
+import { RespectMotionPreferences } from '@/components/RespectMotionPreferences';
+
 import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
 
 import Header from '@/components/Header';
@@ -29,6 +31,7 @@ function RootLayout({ children }) {
   const theme = 'light';
 
   return (
+		<RespectMotionPreferences>
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
@@ -41,6 +44,7 @@ function RootLayout({ children }) {
         <Footer />
       </body>
     </html>
+		</RespectMotionPreferences>
   );
 }
 

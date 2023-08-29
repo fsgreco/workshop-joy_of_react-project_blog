@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 import { range } from '@/utils';
 import Card from '@/components/Card';
@@ -9,11 +10,20 @@ import SliderControl from '@/components/SliderControl';
 import Equation from './Equation';
 import styles from './DivisionGroupsDemo.module.css';
 
+
+const ANIMATION_STYLE = {
+  type: 'spring',
+  stiffness: 500,
+  damping: 60
+}
+
+
 function DivisionGroupsDemo({
   numOfItems = 12,
   initialNumOfGroups = 1,
   includeRemainderArea,
 }) {
+	const randomId = React.useId()
   const [numOfGroups, setNumOfGroups] = React.useState(
     initialNumOfGroups
   );
@@ -62,9 +72,12 @@ function DivisionGroupsDemo({
           {range(numOfGroups).map((groupIndex) => (
             <div key={groupIndex} className={styles.group}>
               {range(numOfItemsPerGroup).map((index) => {
+								let layoutId = `${groupIndex}-${index}-${randomId}`
                 return (
-                  <div
-                    key={index}
+                  <motion.div
+										layoutId={layoutId}
+										transition={{...ANIMATION_STYLE, damping: ANIMATION_STYLE.damping + index * 8}}
+                    key={layoutId}
                     className={styles.item}
                   />
                 );
