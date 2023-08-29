@@ -1,4 +1,5 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 //import path from 'path'
 //import fs from 'node:fs/promises'
 import { MDXRemote } from 'next-mdx-remote/rsc';
@@ -9,8 +10,10 @@ import { loadBlogPost } from '@/helpers/file-helpers';
 import styles from './postSlug.module.css';
 import CodeSnippet from '@/components/CodeSnippet/CodeSnippet';
 
+
 const componentMap = {
-	pre: CodeSnippet
+	pre: CodeSnippet,
+	DivisionGroupsDemo: dynamic(() => import('@/components/DivisionGroupsDemo'), {ssr: false})
 }
 
 export async function generateMetadata({ params }) {
