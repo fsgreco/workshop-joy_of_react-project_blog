@@ -24,18 +24,18 @@ function DivisionGroupsDemo({
   includeRemainderArea,
 }) {
 	const randomId = React.useId()
-  const [numOfGroups, setNumOfGroups] = React.useState(
-    initialNumOfGroups
-  );
+  const [numOfGroups, setNumOfGroups] = React.useState( initialNumOfGroups );
 
-  const numOfItemsPerGroup = Math.floor(
-    numOfItems / numOfGroups
-  );
+  const numOfItemsPerGroup = Math.floor( numOfItems / numOfGroups );
 
   const remainder = includeRemainderArea
     ? numOfItems % numOfGroups
     : null;
 
+	// Calcolo il numero da cui partire nella sezione remainder:
+	// prendo il totale e gli sottraggo il remainder : ottengo il numero da cui partire a calcolare il resto
+	const remainderStartFrom = numOfItems - remainder
+	
   // When we're splitting into 1-3 groups, display side-by-side
   // columns. When we get to 4, it should switch to a 2x2 grid.
   const gridStructure =
@@ -69,10 +69,16 @@ function DivisionGroupsDemo({
           className={clsx(styles.demoArea)}
           style={gridStructure}
         >
-          {range(numOfGroups).map((groupIndex) => (
+          {range(numOfGroups).map((groupIndex) => {
+						// calcolo il numero da cui partire per ogni gruppo
+						// ogni gruppo parte dal numero di item per group moltiplicato la posizione dell'array (se è 0 partirà da 0)
+						const startFrom = numOfItemsPerGroup * groupIndex 
+						// ogni gruppo finirà nel numero di item che contiene moltiplicato per la posizione + 1 (così non sarà mai 0)
+						const endAt = numOfItemsPerGroup * (groupIndex + 1)
+						return (
             <div key={groupIndex} className={styles.group}>
-              {range(numOfItemsPerGroup).map((index) => {
-								let layoutId = `${groupIndex}-${index}-${randomId}`
+              {range( startFrom, endAt ).map((index) => {
+								let layoutId = `${index}-${randomId}`
                 return (
                   <motion.div
 										layoutId={layoutId}
@@ -83,7 +89,7 @@ function DivisionGroupsDemo({
                 );
               })}
             </div>
-          ))}
+          )})}
         </div>
       </div>
 
@@ -93,9 +99,14 @@ function DivisionGroupsDemo({
             Remainder Area
           </p>
 
-          {range(remainder).map((index) => {
+          {range(remainderStartFrom, numOfItems).map((index) => {
+						const uniqueId = `${index}-${randomId}`
             return (
-              <div key={index} className={styles.item} />
+              <motion.div 
+							key={uniqueId} layoutId={uniqueId} 
+							transition={{...ANIMATION_STYLE, damping: ANIMATION_STYLE.damping + index * 8}}
+							className={styles.item}
+							/>
             );
           })}
         </div>
