@@ -13,7 +13,8 @@ import CodeSnippet from '@/components/CodeSnippet/CodeSnippet';
 
 const componentMap = {
 	pre: CodeSnippet,
-	DivisionGroupsDemo: dynamic(() => import('@/components/DivisionGroupsDemo'), {ssr: false})
+	DivisionGroupsDemo: dynamic(() => import('@/components/DivisionGroupsDemo'), { ssr: false }),
+	CircularColorsDemo: dynamic(() => import('@/components/CircularColorsDemo'), { ssr: false })
 }
 
 export async function generateMetadata({ params }) {
