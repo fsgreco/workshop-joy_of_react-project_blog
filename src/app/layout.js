@@ -4,10 +4,11 @@ import {
   Spline_Sans_Mono,
 } from 'next/font/google';
 import clsx from 'clsx';
+import { cookies } from 'next/headers'
 
 import { RespectMotionPreferences } from '@/components/RespectMotionPreferences';
 
-import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
+import { LIGHT_TOKENS, DARK_TOKENS, DEFAULT_COLOR_SCHEME } from '@/constants';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -27,9 +28,10 @@ const monoFont = Spline_Sans_Mono({
 });
 
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = 'light';
 
+	const cookieTheme = cookies().get('color-theme')
+	const theme = cookieTheme?.value || DEFAULT_COLOR_SCHEME // 'light' | 'dark' 
+	
   return (
 		<RespectMotionPreferences>
     <html
