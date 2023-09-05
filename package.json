@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new-component": "new-component"
+    "new-component": "new-component",
+    "prebuild": "node generate-rss-feed.mjs"
   },
   "dependencies": {
     "bright": "0.8.4",
@@ -24,5 +25,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-feather": "2.0.10"
+  },
+  "devDependencies": {
+    "rss": "^1.2.2"
   }
 }

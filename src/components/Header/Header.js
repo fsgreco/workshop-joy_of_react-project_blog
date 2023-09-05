@@ -1,14 +1,17 @@
+'use client';
 import React from 'react';
 import clsx from 'clsx';
-import { Rss, Sun, Moon } from 'react-feather';
+import { Rss } from 'react-feather';
 
 import Logo from '@/components/Logo';
 import VisuallyHidden from '@/components/VisuallyHidden';
 
 import styles from './Header.module.css';
 import ThemeToggler from '../ThemeToggler/ThemeToggler';
+import { useRouter } from 'next/navigation'
 
 function Header({ theme, className, ...delegated }) {
+	const { push } = useRouter()
   return (
     <header
       className={clsx(styles.wrapper, className)}
@@ -17,7 +20,7 @@ function Header({ theme, className, ...delegated }) {
       <Logo />
 
       <div className={styles.actions}>
-        <button className={styles.action}>
+        <button onClick={() => push('/rss.xml')} className={styles.action}>
           <Rss
             size="1.5rem"
             style={{
