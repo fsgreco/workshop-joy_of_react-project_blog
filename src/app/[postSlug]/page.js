@@ -9,6 +9,7 @@ import { loadBlogPost } from '@/helpers/file-helpers';
 
 import styles from './postSlug.module.css';
 import CodeSnippet from '@/components/CodeSnippet/CodeSnippet';
+import { notFound } from 'next/navigation';
 
 
 const componentMap = {
@@ -18,7 +19,11 @@ const componentMap = {
 }
 
 export async function generateMetadata({ params }) {
-	const { frontmatter } = await loadBlogPost(params.postSlug)
+	const post = await loadBlogPost(params.postSlug)
+	
+	if (!post) return null
+
+	const { frontmatter } = post
   return {
     title: frontmatter.title,
 		description: frontmatter.abstract
@@ -29,8 +34,10 @@ async function BlogPost({params}) {
 	const { postSlug } = params
 	// Read the content of a locally-stored file as a string:
 	// let content = await fs.readFile( path.join( process.cwd(), `/content/${postSlug}.mdx` ), 'utf8' )
-	const { frontmatter, content } = await loadBlogPost(postSlug)
-
+	const post = await loadBlogPost(postSlug)
+	if (!post) notFound()
+	
+	const { frontmatter, content } = post
   return (
     <article className={styles.wrapper}>
       <BlogHero
